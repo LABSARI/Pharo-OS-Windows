@@ -69,10 +69,12 @@ Class {
 		'PWSTR',
 		'RECT',
 		'SHORT',
+		'SIZE_T',
 		'SYSTEMTIME',
 		'TCHAR',
 		'UINT',
 		'ULONG',
+		'ULONG_PTR',
 		'USHORT',
 		'VOID',
 		'WCHAR',
@@ -148,7 +150,7 @@ WinTypes class >> initKnownTypes [
 	LONG64 := #longlong.
 	LONG_PTR := #long.
 	LPOFNHOOKPROC := LONG_PTR.
-	LPARAM := #'LONG_PTR'.
+	LPARAM := #LONG_PTR.
 	LPBOOL := #'BOOL*'.
 	LPBYTE := #'BYTE*'.
 	LPCOLORREF := #'DWORD*'.
@@ -163,6 +165,8 @@ WinTypes class >> initKnownTypes [
 	PBOOL := 'BOOL*'.
 	PBOOLEAN := 'BOOLEAN*'.
 
+	ULONG_PTR := ULONG.
+	SIZE_T := ULONG_PTR.
 	WNDPROC := #'void*'.
 	HWND := #'void*'.
 	HANDLE := #WinHandle.
