@@ -366,11 +366,16 @@ Class {
 		'PIPE_TYPE_MESSAGE',
 		'PIPE_UNLIMITED_INSTANCES',
 		'PIPE_WAIT',
+		'PROCESS_ALL_ACCESS',
+		'PROCESS_CREATE_THREAD',
 		'PROCESS_HEAP_ENTRY_BUSY',
 		'PROCESS_HEAP_ENTRY_DDESHARE',
 		'PROCESS_HEAP_ENTRY_MOVEABLE',
 		'PROCESS_HEAP_REGION',
 		'PROCESS_HEAP_UNCOMMITTED_RANGE',
+		'PROCESS_VM_OPERATION',
+		'PROCESS_VM_READ',
+		'PROCESS_VM_WRITE',
 		'PROFILE_KERNEL',
 		'PROFILE_SERVER',
 		'PROFILE_USER',
@@ -1215,7 +1220,20 @@ WinBaseConstants class >> initialize [
 		initExceptionHandlingConstants;
 		initMemoryManagementConstants;
 		initEventLogConstants;
-		initializeUndocumented
+		initializeUndocumented;
+		initializeProcessRightsConstants
+]
+
+{ #category : #'private - initialization' }
+WinBaseConstants class >> initializeProcessRightsConstants [
+	"Initializes process rights constants"
+
+	<script>
+	PROCESS_VM_READ := 16r0010.
+	PROCESS_VM_OPERATION := 16r0008.
+	PROCESS_VM_WRITE := 16r0020.
+	PROCESS_CREATE_THREAD := 16r0002.
+	PROCESS_ALL_ACCESS := 16r1FFFFF
 ]
 
 { #category : #'private - initialization' }
