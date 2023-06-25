@@ -67,3 +67,19 @@ WinProcessManager class >> openProcess: access inherit: inh pid: pid [
 
 	^ self ffiCall:  #( HANDLE OpenProcess(DWORD access, bool inh, DWORD pid)) library: 'kernel32.dll'
 ]
+
+{ #category : #'ffi-calls' }
+WinProcessManager class >> readProcessMemory: hProcess adress: baseAdress buffer: buffer size: size nbBytesRead: numberOfBytesRead [
+	"The handle (hProcess) must have PROCESS_VM_READ access to the process."
+	^ self ffiCall:
+		  #( BOOL ReadProcessMemory #( HANDLE hProcess , LPCVOID baseAdress
+		        , LPVOID buffer , SIZE_T size , SIZE_T * numberOfBytesRead ) )
+]
+
+{ #category : #'ffi-calls' }
+WinProcessManager class >> writeProcessMemory: hProcess adress: baseAdress buffer: buffer size: size nbBytesWritten: numberOfBytesWritten [
+	"The handle (hProcess) must have PROCESS_VM_WRITE and PROCESS_VM_OPERATION access to the process."
+	^ self ffiCall:
+		  #( BOOL ReadProcessMemory #( HANDLE hProcess , LPCVOID baseAdress
+		        , LPVOID buffer , SIZE_T size , SIZE_T * numberOfBytesWritten ) )
+]
