@@ -263,6 +263,23 @@ WinProcess >> getExitCodeProcess: lpExitCode [
         module: #kernel32
 ]
 
+{ #category : #'private - primitives' }
+WinProcess >> getModuleBaseName [
+
+	| fileName sizeOfString name |
+	fileName := FFIArray externalNewType: #char size: 64.
+	sizeOfString := WinProcessManager  
+		                getModuleBaseName: self
+		                module: nil
+		                string: fileName tfPointerAddress
+		                size: 64.
+	sizeOfString isZero ifTrue: [ ^ '' ].
+	name := String new: sizeOfString.
+	1 to: sizeOfString do: [ :ic | name at: ic put: (fileName at: ic) ].
+	fileName free.
+	^ name
+]
+
 { #category : #accessing }
 WinProcess >> getPriorityClass [
 	"Return the priority class for the specified process"

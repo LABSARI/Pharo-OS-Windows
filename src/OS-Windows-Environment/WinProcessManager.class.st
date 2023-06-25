@@ -34,22 +34,23 @@ WinProcessManager class >> findProcessWithWindowName: aString [
 { #category : #'ffi-calls' }
 WinProcessManager class >> findWindow: classNname name: string [
 
-	| aWinProcessManager |
-	aWinProcessManager := self new.
-
-	^ aWinProcessManager
+	^ self
 		  ffiCall:
 		  #( HWND FindWindowA #( LPCSTR classNname , LPCSTR string ) )
 		  library: 'User32.dll'
 ]
 
+{ #category : #'private - primitives' }
+WinProcessManager class >> getModuleBaseName: processAdress module: module string: str size: size [
+
+	^ self ffiCall: #(DWORD GetModuleBaseNameA(HANDLE processAdress, HANDLE module, char * str,DWORD size))
+		  library: 'psapi.dll'
+]
+
 { #category : #accessing }
 WinProcessManager class >> getWindowThreadProcess: whnd id: pointerToDWORD [
 
-	| aWinProcessManager |
-	aWinProcessManager := self new.
-
-	^ aWinProcessManager
+	^ self
 		  ffiCall:
 		  #( DWORD GetWindowThreadProcessId #( HWND whnd , LPDWORD pointerToDWORD ) )
 		  library: 'User32.dll'
