@@ -69,17 +69,17 @@ WinProcessManager class >> openProcess: access inherit: inh pid: pid [
 ]
 
 { #category : #'ffi-calls' }
-WinProcessManager class >> readProcessMemory: hProcess adress: baseAdress buffer: buffer size: size nbBytesRead: numberOfBytesRead [
+WinProcessManager class >> readProcessMemory: hProcess address: baseAddress buffer: buffer size: size nbBytesRead: numberOfBytesRead [
 	"The handle (hProcess) must have PROCESS_VM_READ access to the process."
 	^ self ffiCall:
-		  #( BOOL ReadProcessMemory #( HANDLE hProcess , LPCVOID baseAdress
-		        , LPVOID buffer , SIZE_T size , SIZE_T * numberOfBytesRead ) )
+		  #( BOOL ReadProcessMemory #( HANDLE hProcess , LPCVOID baseAddress
+		        , LPVOID buffer , SIZE_T size , SIZE_T * numberOfBytesRead ) ) library: 'kernel32.dll'
 ]
 
 { #category : #'ffi-calls' }
-WinProcessManager class >> writeProcessMemory: hProcess adress: baseAdress buffer: buffer size: size nbBytesWritten: numberOfBytesWritten [
+WinProcessManager class >> writeProcessMemory: hProcess address: baseAddress buffer: buffer size: size nbBytesWritten: numberOfBytesWritten [
 	"The handle (hProcess) must have PROCESS_VM_WRITE and PROCESS_VM_OPERATION access to the process."
 	^ self ffiCall:
-		  #( BOOL ReadProcessMemory #( HANDLE hProcess , LPCVOID baseAdress
-		        , LPVOID buffer , SIZE_T size , SIZE_T * numberOfBytesWritten ) )
+		  #( BOOL WriteProcessMemory #( HANDLE hProcess , LPCVOID baseAddress
+		        , LPVOID buffer , SIZE_T size , SIZE_T * numberOfBytesWritten ) ) library: 'kernel32.dll'
 ]
