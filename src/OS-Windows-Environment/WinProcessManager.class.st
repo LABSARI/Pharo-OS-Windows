@@ -5,6 +5,7 @@ Class {
 	#name : #WinProcessManager,
 	#superclass : #Object,
 	#pools : [
+		'WinBaseConstants',
 		'WinTypes'
 	],
 	#category : #'OS-Windows-Environment-Processing'
@@ -14,7 +15,7 @@ Class {
 WinProcessManager class >> findProcessWithWindowName: aString [
 	"Returns the process (WinProcess) of the window titled with aString. Returns nil if no process is 	found."
 
-	| windowHandle ptc pid processHandle |
+	| windowHandle ptc pid processHandle accessRights |
 	windowHandle := self findWindow: nil name: aString.
 	"Window not found."
 	windowHandle isNull ifTrue: [ ^ nil ].
@@ -24,7 +25,12 @@ WinProcessManager class >> findProcessWithWindowName: aString [
 	ptc isNull ifTrue: [ ^ nil ].
 	pid := ptc uint32AtOffset: 0.
 	ptc free.
-	processHandle := self openProcess: 16r1f0fff inherit: 1 pid: pid.
+	accessRights := (PROCESS_VM_OPERATION bitOr: PROCESS_VM_READ) bitOr:
+		                PROCESS_VM_WRITE.
+	processHandle := self
+		                 openProcess: accessRights
+		                 inherit: 1
+		                 pid: pid.
 	"Could not found process handle."
 	processHandle isNull ifTrue: [ ^ nil ].
 
